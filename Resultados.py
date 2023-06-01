@@ -14,10 +14,65 @@ modelo.check_model()
 
 # Infering the posterior probability
 infer = VariableElimination(modelo)
-posterior_p = infer.query(["Puntaje"], evidence={'Periodo': '0', 'Calendario': '0', 'Bilingue': '0', 'Departamento_Est': '7',
-                                                 'Jornada': '5', 'Genero_Colegio': '0', 'Genero': '0', 'Estrato':'5', 'Computador': '0'})
 
-print(posterior_p)
+def Discretizacion(periodo, calendario, jornada, bilingue, genero_col, genero_est, departamento, estrato, computador):
+    datos = []
+
+    #Periodo
+    periodoD = (periodo == 20211) * 1
+
+    #Calendario
+    calendarios = ['A', 'B', 'OTRO']
+    for i in range(0, len(calendarios)):
+        if calendario == calendarios[i]:
+            calendarioD = i
+
+    # Jornada
+    jornadas = ['COMPLETA', 'MAÑANA', 'NOCHE', 'SABATINA', 'TARDE', 'UNICA']
+    for i in range(0, len(jornadas)):
+        if jornada == jornadas[i]:
+            jornadaD = i
+
+    #Bilingue
+    bilingueD = (bilingue == "S") * 1
+
+    #Genero Colegio
+    generoscol = ['FEMENINO', 'MASCULINO', 'MIXTO']
+    for i in range(0, len(generoscol)):
+        if genero_col == generoscol[i]:
+            genero_colD = i
+
+    #Genero Estudiante
+    genero_estD = (genero_est == "M") * 1
+
+    # Departamento
+    departamentos = ['AMAZONAS', 'ANTIOQUIA', 'ARAUCA', 'ATLANTICO', 'BOGOTÁ', 'BOLIVAR', 'BOYACA', 'CALDAS', 'CAQUETA',
+                     'CASANARE', 'CAUCA', 'CESAR', 'CHOCO', 'CORDOBA', 'CUNDINAMARCA', 'GUAINIA', 'GUAVIARE', 'HUILA',
+                     'LA GUAJIRA', 'MAGDALENA', 'META', 'NARIÑO', 'NORTE SANTANDER', 'PUTUMAYO', 'QUINDIO', 'RISARALDA',
+                     'SAN ANDRES', 'SANTANDER', 'SUCRE', 'TOLIMA', 'VALLE', 'VAUPES', 'VICHADA']
+    for i in range(0, len(departamentos)):
+        if departamento == departamentos[i]:
+            departamentoD = i
+
+    #Estrato
+    estratos = ['Estrato 1', 'Estrato 2', 'Estrato 3', 'Estrato 4', 'Estrato 5', 'Estrato 6', 'No sabe']
+    for i in range(0, len(estratos)):
+        if estrato == estratos[i]:
+            estratoD = i + 1
+
+    #Computador
+    computadorD = (computador == "Si") * 1
+
+    datos.append(str(periodoD), str(calendarioD), str(jornadaD), str(bilingueD), str(genero_colD), str(genero_estD), str(departamentoD), str(estratoD), str(computadorD))
+    return datos
+variables = Discretizacion(periodo, calendario, jornada, bilingue, genero_col, genero_est, departamento, estrato, computador)
+
+posterior_p = infer.query(["Puntaje"], evidence={'Periodo': variables[0], 'Calendario': variables[1],
+                                                 'Jornada': variables[2] ,'Bilingue': variables[3],
+                                                 'Genero_Colegio': variables[4],'Genero': variables[5],
+                                                 'Departamento_Est': variables[6],  'Estrato':variables[7],
+                                                 'Computador': variables[8]})
+
 valores1 = round(posterior_p.values[0],2)
 valores2 = round(posterior_p.values[1],2)
 valores3 = round(posterior_p.values[2],2)
