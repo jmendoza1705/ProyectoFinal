@@ -28,7 +28,7 @@ server = app.server
 ruta_imagen = "https://colnazareth.edu.co/images/icfes2.png"
 imagen2 = "https://www.elcolombiano.com/documents/10157/0/580x365/0c0/0d0/none/11101/KIMT/image_content_28178409_20170304154639.jpg"
 
-app.layout = html.Div(
+app.layout = html.Div(style={'overflowY': 'auto'},
     children=[
         html.H1(
             children=[
@@ -51,10 +51,10 @@ app.layout = html.Div(
 
         dcc.Tabs(
             id="tabs",
-            value="tab-1",
+            value="inicio",
             children=[
             # Tab 1: Inicio
-                dcc.Tab(
+                dcc.Tab(style={'backgroundColor':'#FAFAF3', 'fontSize': '18px', "color": "#526771"},
                     label="Inicio",
                     value="inicio",
                     children=[
@@ -62,6 +62,8 @@ app.layout = html.Div(
                             className="texto",
                             style={"flex": "1"},
                             children=[
+                                html.Br(),
+                                html.Br(),
                                 html.H6("Las pruebas Saber 11 son de carácter obligarotio en Colombia para el ingreso a la "
                                         "educación superior. Estas pruebas permiten realizar un censo periódico de las "
                                         "competencias básicas de los estudiantes, con el propósito de definir estrategias que "
@@ -101,58 +103,121 @@ app.layout = html.Div(
                     ])]),
 
             # Tab 2: Visualizaciones
-                dcc.Tab(
+                dcc.Tab(style={'backgroundColor':'#FAFAF3', 'fontSize': '18px', "color": "#526771"},
                     label="Visualizaciones",
                     value="tab-2",
                     children=[
                         html.Div("Contenido de la pestaña 2")]),
 
             # Tab 3: Predicciones
-                dcc.Tab(
+                dcc.Tab(style={'backgroundColor':'#FAFAF3', 'fontSize': '18px', "color": "#526771"},
                     label="Predicciones",
                     value="tab-3",
                     children=[
                         html.Div([
+
                             html.Br(),
                             # Sección que indica la instrucción a seguir
                             html.Div(html.H6('Seleccione los valores de los parámetros para hacer la predicción'),
                                      style={'backgroundColor': "#D8E7E7", "color": "#526771",
                                             'textAlign': 'center', 'fontSize': '18px'}),
                             html.Br(),
+
+                            # Listas desplegables
                             html.Div([
                             html.Div(html.H6("Periodo", style={"color": "#576DA6"})),
-                            html.Div(
-                                '''30: 29 a 39 años / 40: 40 a 49 años / 50: 50 a 59 años / 60: 60 a 69 años / 70: Mayor de 70 años'''),
                             html.Div([
                                 dcc.Dropdown(
-                                    id='Edad',
-                                    options=[{'label': i, 'value': i} for i in ["20194", "2021", 40, 50, 60, 70]])],
-                                style={'width': '35%', 'display': 'inline-block'}),
+                                    id='periodo',
+                                    options=[{'label': i, 'value': i} for i in ["20194", "20211"]])],
+                                    style={'width': '35%', 'display': 'inline-block'}),
 
-                            html.Div(html.H6("Glucosa (Fbs)", style={"color": "#A52555"})),
-                            html.Div("0: No / 1: Sí"),
+                            html.Div(html.H6("Calendario", style={"color": "#576DA6"})),
                             html.Div([
                                 dcc.Dropdown(
-                                    id='Glucosa',
-                                    options=[{'label': i, 'value': i} for i in [0, 1]])],
-                                style={'width': '35%', 'display': 'inline-block'})], style={'columnCount': 2}),
+                                    id='calendario',
+                                    options=[{'label': i, 'value': i} for i in ["A", "B", "OTRO"]])],
+                                    style={'width': '35%', 'display': 'inline-block'}),
+
+                            html.Div(html.H6("Jornada", style={"color": "#576DA6"})),
+                            html.Div([
+                                dcc.Dropdown(
+                                    id='jornada',
+                                    options=[{'label': i, 'value': i} for i in ['COMPLETA', 'MAÑANA', 'NOCHE',
+                                                                                'SABATINA', 'TARDE', 'UNICA']])],
+                                    style={'width': '35%', 'display': 'inline-block'})],style={'columnCount': 3}),
 
 
+                            html.Div([
+                            html.Div(html.H6("Bilingue", style={"color": "#576DA6"})),
+                            html.Div([
+                                dcc.Dropdown(
+                                    id='bilingue',
+                                    options=[{'label': i, 'value': i} for i in ["No", "Si"]])],
+                                    style={'width': '35%', 'display': 'inline-block'}),
+
+                            html.Div(html.H6("Género de Colegio", style={"color": "#576DA6"})),
+                            html.Div([
+                                dcc.Dropdown(
+                                    id='genero_col',
+                                    options=[{'label': i, 'value': i} for i in ["FEMENINO", "MASCULINO", "MIXTO"]])],
+                                    style={'width': '35%', 'display': 'inline-block'}),
+
+                            html.Div(html.H6("Género del Estudiante", style={"color": "#576DA6"})),
+                            html.Div([
+                                dcc.Dropdown(
+                                    id='genero_est',
+                                    options=[{'label': i, 'value': i} for i in ["F", "M"]])],
+                                    style={'width': '35%', 'display': 'inline-block'})], style={'columnCount': 3}),
 
 
-                        ])])
-            ],
-            style={
-                "position": "fixed",
-                "bottom": "0",
-                "width": "100%",
-                "background-color": "#f4f4f4"},
-            content_style={
-                "padding": "20px"})
+                            html.Div([
+                            html.Div(html.H6("Departamento", style={"color": "#576DA6"})),
+                            html.Div([
+                                dcc.Dropdown(
+                                    id='departamento',
+                                    options=[{'label': i, 'value': i} for i in ['AMAZONAS','ANTIOQUIA','ARAUCA','ATLANTICO',
+                                                                                'BOGOTÁ','BOLIVAR','BOYACA','CALDAS','CAQUETA',
+                                                                                'CASANARE','CAUCA', 'CESAR', 'CHOCO', 'CORDOBA',
+                                                                                'CUNDINAMARCA', 'GUAINIA','GUAVIARE', 'HUILA',
+                                                                                'LA GUAJIRA', 'MAGDALENA', 'META', 'NARIÑO',
+                                                                                'NORTE SANTANDER','PUTUMAYO', 'QUINDIO',
+                                                                                'RISARALDA', 'SAN ANDRES', 'SANTANDER', 'SUCRE',
+                                                                                'TOLIMA','VALLE', 'VAUPES', 'VICHADA']])],
+                                    style={'width': '35%', 'display': 'inline-block'}),
+
+                            html.Div(html.H6("Estrato", style={"color": "#576DA6"})),
+                            html.Div([
+                                dcc.Dropdown(
+                                    id='estrato',
+                                    options=[{'label': i, 'value': i} for i in ["Estrato 1", "Estrato 2", "Estrato 3",
+                                                                                "Estrato 4", "Estrato 5","Estrato 6",
+                                                                                "No sabe"]])],
+                                    style={'width': '35%', 'display': 'inline-block'}),
+
+                            html.Div(html.H6("Computador", style={"color": "#576DA6"})),
+                            html.Div([
+                                dcc.Dropdown(
+                                    id='computador',
+                                    options=[{'label': i, 'value': i} for i in ["No", "Si"]])],
+                                style={'width': '35%', 'display': 'inline-block'})], style={'columnCount': 3}),
 
 
+                            # Se crea el botón
+                            html.Div([
+                            html.Br(),
+                            html.Br(),
+                            html.Button('Realizar predicción', id='boton', n_clicks=0,
+                                        style={'color': '#526771',
+                                            'backgroundColor': '#D8E7E7',
+                                            'fontSize': '18px'}),
+                            dcc.Interval(id='interval', interval=500)]),
 
-    ])
+                            # Se crea la gráfica
+                            html.Div([
+                            html.Br(),
+                            html.Br(),
+                            dcc.Graph(id='graficaProb')])])])])])
 
 if __name__ == '__main__':
     app.run_server(debug=True, use_reloader=False, port=9878, host = "0.0.0.0")
