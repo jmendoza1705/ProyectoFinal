@@ -169,9 +169,6 @@ dataValidacion = data[615000:,:]
 anotaciones = []
 predicciones = []
 for i in range(0, len(dataValidacion)):
-
-
-
     variables = [dataValidacion[i, 0], dataValidacion[i, 1], dataValidacion[i, 4], dataValidacion[i, 2],
                  dataValidacion[i, 5], dataValidacion[i, 6], dataValidacion[i, 3], dataValidacion[i, 7], dataValidacion[i, 9]]
     posterior_p = infer.query(["Puntaje"], evidence={'Periodo': str(variables[0]), 'Calendario': str(variables[1]),
@@ -199,8 +196,8 @@ for i in range(0, len(dataValidacion)):
 ########### Matriz de Confusión y Resultados Estadísticos ###########
 matriz = confusion_matrix(anotaciones, predicciones)
 cm_display = ConfusionMatrixDisplay(confusion_matrix = matriz, display_labels = ['0', '1','2', '3'])
-cm_display.plot(cmap = 'PuRd', colorbar = True)
-plt.title('Matriz de Confusión para Predicción de Enfermedad Cardiaca (EC) \n Modelo Proyecto 1 \n')
+cm_display.plot(cmap = 'Blues', colorbar = False)
+plt.title('Matriz de Confusión para Analítica de Resultados \n del Saber 11 \n')
 plt.ylabel('Anotaciones')
 plt.xlabel('Predicciones')
 plt.tight_layout()
