@@ -187,7 +187,7 @@ def Discretizacion(periodo, calendario, jornada, bilingue, genero_col, genero_es
     return datos
 
 # IMPORTACIÓN DEL MODELO ----------------------------------------------------------------------------------------------------------
-reader = BIFReader("Proyecto Final/modeloPFinal.bif")
+reader = BIFReader("modeloPFinal.bif")
 modelo = reader.get_model()
 modelo.check_model()
 # Infering the posterior probability
@@ -517,33 +517,35 @@ def update_figure(n_clicks, periodo, calendario, jornada, bilingue, genero_col, 
     pio.renderers.default = "browser"
     fig = go.Figure()
     fig.update_layout(height=300, width=800)
-    fig.add_trace(go.Bar(x=[maximob - minimo], base=minimo, marker_color='#A4D2BC', orientation='h', showlegend=False))
-    fig.add_trace(
-        go.Scatter(x=data0['lineas0'], y=data0['valoresy'], mode='lines', line_color='#728E9D', line_dash='dash',
-                   showlegend=False))
-    fig.add_annotation(x=0, y=0.4, text='0', arrowhead=False, showarrow=False)
-    fig.add_trace(
-        go.Scatter(x=data25['lineas25'], y=data25['valoresy'], mode='lines', line_color='#728E9D', line_dash='dash',
-                   showlegend=False))
-    fig.add_annotation(x=25, y=0.4, text='25%', arrowhead=False, showarrow=False)
-    fig.add_trace(
-        go.Scatter(x=data50['lineas50'], y=data50['valoresy'], mode='lines', line_color='#728E9D', line_dash='dash',
-                   showlegend=False))
-    fig.add_annotation(x=50, y=0.4, text='50%', arrowhead=False, showarrow=False)
-    fig.add_trace(
-        go.Scatter(x=data75['lineas75'], y=data75['valoresy'], mode='lines', line_color='#728E9D', line_dash='dash',
-                   showlegend=False))
-    fig.add_annotation(x=75, y=0.4, text='75%', arrowhead=False, showarrow=False)
-    fig.add_trace(
-        go.Scatter(x=data1['lineas1'], y=data1['valoresy'], mode='lines', line_color='#728E9D', line_dash='dash',
-                   showlegend=False))
-    fig.add_annotation(x=100, y=0.4, text='100%', arrowhead=False, showarrow=False)
 
     if math.isnan(valores1) or math.isnan(valores2) or math.isnan(valores3) or math.isnan(valores4):
         fig.update_layout(width=900, bargap=0.8,
                           plot_bgcolor="rgba(255,255,255,255)",
-                          title_text='No es posible calcular la probabilidad con los datos ingresados')
+                          title_text='No es posible calcular la probabilidad con los datos ingresados', title_x=0.5)
     else:
+        fig.add_trace(
+            go.Bar(x=[maximob - minimo], base=minimo, marker_color='#A4D2BC', orientation='h', showlegend=False))
+        fig.add_trace(
+            go.Scatter(x=data0['lineas0'], y=data0['valoresy'], mode='lines', line_color='#728E9D', line_dash='dash',
+                       showlegend=False))
+        fig.add_annotation(x=0, y=0.4, text='0', arrowhead=False, showarrow=False)
+        fig.add_trace(
+            go.Scatter(x=data25['lineas25'], y=data25['valoresy'], mode='lines', line_color='#728E9D', line_dash='dash',
+                       showlegend=False))
+        fig.add_annotation(x=25, y=0.4, text='25%', arrowhead=False, showarrow=False)
+        fig.add_trace(
+            go.Scatter(x=data50['lineas50'], y=data50['valoresy'], mode='lines', line_color='#728E9D', line_dash='dash',
+                       showlegend=False))
+        fig.add_annotation(x=50, y=0.4, text='50%', arrowhead=False, showarrow=False)
+        fig.add_trace(
+            go.Scatter(x=data75['lineas75'], y=data75['valoresy'], mode='lines', line_color='#728E9D', line_dash='dash',
+                       showlegend=False))
+        fig.add_annotation(x=75, y=0.4, text='75%', arrowhead=False, showarrow=False)
+        fig.add_trace(
+            go.Scatter(x=data1['lineas1'], y=data1['valoresy'], mode='lines', line_color='#728E9D', line_dash='dash',
+                       showlegend=False))
+        fig.add_annotation(x=100, y=0.4, text='100%', arrowhead=False, showarrow=False)
+
         fig.update_layout(width=900, bargap=0.8,
                           plot_bgcolor="rgba(255,255,255,255)",
                           title_text='El estudiante se encuentra entre los percentiles ' + percentil + ' con una probabilidad de ' + str(
