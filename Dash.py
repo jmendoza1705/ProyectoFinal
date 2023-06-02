@@ -1,3 +1,7 @@
+# Alejandra Erazo
+# Juliana Mendoza
+# Proyecto Final
+
 import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output, State
@@ -27,7 +31,7 @@ from statistics import mode
 engine=create_engine('postgresql://postgres:proyectofinal@proyectodb.colrzll4geas.us-east-1.rds.amazonaws.com:5432/proyectodb1')
 datos = pd.read_sql(text("SELECT * FROM proyectodb1"), con=engine.connect())
 
-# Visualización 1
+# Visualización 1 y 2
 punt_antes_mayor50, punt_antes_menor50, punt_despues_mayor50, punt_despues_menor50 = 0,0,0,0
 for i in range (len(datos["Periodo"])):
     if datos["Periodo"][i] == 0:
@@ -47,17 +51,19 @@ despues = [punt_despues_menor50, punt_despues_mayor50]
 
 fig_v1 = px.bar(x=d_x, y=antes)
 fig_v1.update_traces(marker_color='#ADD4D9')
-fig_v1.update_layout(width=1000,plot_bgcolor="rgba(255,255,255,255)",title_text='Saber 11 - 20194', title_x=0.5, title_font_size=20, font=dict(size=16))
+fig_v1.update_layout(width=1000,plot_bgcolor="rgba(255,255,255,255)",title_text='Saber 11 - 20194', title_x=0.5,
+                     title_font_size=20, font=dict(size=16), bargap=0.3)
 fig_v1.update_xaxes( showline=True, linewidth=1, linecolor='black', mirror=True, title_text='Percentil',tickfont=dict(size=15))
 fig_v1.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True, title_text='Frecuencia',tickfont=dict(size=15))
 
 fig_v2 = px.bar(x=d_x, y=despues)
 fig_v2.update_traces(marker_color='#728E9D')
-fig_v2.update_layout(width=1000,plot_bgcolor="rgba(255,255,255,255)",title_text='Saber 11 - 20211', title_x=0.5, title_font_size=20, font=dict(size=16))
+fig_v2.update_layout(width=1000,plot_bgcolor="rgba(255,255,255,255)",title_text='Saber 11 - 20211', title_x=0.5, title_font_size=20,
+                     font=dict(size=16), bargap=0.3)
 fig_v2.update_xaxes( showline=True, linewidth=1, linecolor='black', mirror=True, title_text='Percentil',tickfont=dict(size=15))
 fig_v2.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True, title_text='Frecuencia',tickfont=dict(size=15))
 
-# Visualización 2
+# Visualización 3
 departamentos = []
 for departamento in datos['Departamento_Est'].unique():
     departamentos.append(departamento)
@@ -93,6 +99,39 @@ fig_v3.update_traces(marker_color='#A4D2BC')
 fig_v3.update_layout(width=1000,plot_bgcolor="rgba(255,255,255,255)",title_text='Personas que obtuvieron un puntaje entre el percentil 25 y 50', title_x=0.5, title_font_size=20, font=dict(size=16))
 fig_v3.update_xaxes( showline=True, linewidth=1, linecolor='black', mirror=True, title_text='Frecuencia',tickfont=dict(size=15))
 fig_v3.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True, title_text='Departamento',tickfont=dict(size=15))
+
+# Visualización 4 y 5
+# 0 mujer
+punt_mujer_50, punt_mujer_mas, punt_hombre_50, punt_hombre_mas = 0,0,0,0
+for i in range (len(datos["Genero"])):
+    if datos["Genero"][i] == 0:
+        if datos["Puntaje"][i] == 0 or datos["Puntaje"][i] == 1:
+            punt_mujer_50 += 1
+        elif datos["Puntaje"][i] == 2 or datos["Puntaje"][i] == 3:
+            punt_mujer_mas += 1
+    if datos["Genero"][i] == 1:
+        if datos["Puntaje"][i] == 0 or datos["Puntaje"][i] == 1:
+            punt_hombre_50 += 1
+        elif datos["Puntaje"][i] == 2 or datos["Puntaje"][i] == 3:
+            punt_hombre_mas += 1
+
+d_x = ["Menor al 50%", "Mayor al 50%"]
+mujeres = [punt_mujer_50, punt_mujer_mas]
+hombres = [punt_hombre_50, punt_hombre_mas]
+
+fig_v4 = px.bar(x=d_x, y=mujeres)
+fig_v4.update_traces(marker_color='#ADD4D9')
+fig_v4.update_layout(width=1000,plot_bgcolor="rgba(255,255,255,255)",title_text='Percentil del puntaje obtenido en el Saber 11 - Mujeres',
+                     title_x=0.5, title_font_size=20, font=dict(size=16), bargap=0.3)
+fig_v4.update_xaxes( showline=True, linewidth=1, linecolor='black', mirror=True, title_text='Percentil',tickfont=dict(size=15))
+fig_v4.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True, title_text='Frecuencia',tickfont=dict(size=15))
+
+fig_v5 = px.bar(x=d_x, y=hombres)
+fig_v5.update_traces(marker_color='#728E9D')
+fig_v5.update_layout(width=1000,plot_bgcolor="rgba(255,255,255,255)",title_text='Percentil del puntaje obtenido en el Saber 11 - Hombres',
+                     title_x=0.5, title_font_size=20, font=dict(size=16), bargap=0.3)
+fig_v5.update_xaxes( showline=True, linewidth=1, linecolor='black', mirror=True, title_text='Percentil',tickfont=dict(size=15))
+fig_v5.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True, title_text='Frecuencia',tickfont=dict(size=15))
 
 
 # FUNCIÓN DE DISCRETIZACIÓN -------------------------------------------------------------------------------------------------------
@@ -264,16 +303,18 @@ app.layout = html.Div(style={'overflowY': 'auto'},
                             html.Div([
                                 dcc.Graph(
                                     id='graph3',
-                                    figure=fig_v3),], className='row')
+                                    figure=fig_v3),], className='row'),
 
-
-
-
-
-
-
-
-
+                            html.Br(),
+                            html.Div(html.H6('Resultados de las pruebas Saber 11 según el Género del Estudiante'),
+                                     style={'backgroundColor': "#D8E7E7", "color": "#526771",
+                                         'textAlign': 'center', 'fontSize': '18px'}),
+                            html.Br(),
+                            html.Div([
+                                html.Div(children=[
+                                    dcc.Graph(id='graph4', figure=fig_v4),], className='six columns'),
+                                html.Div(children=[
+                                    dcc.Graph(id='graph5', figure=fig_v5),], className='six columns')], className='row'),
 
                         ])]),
 
