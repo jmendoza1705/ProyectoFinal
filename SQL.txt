@@ -1,0 +1,27 @@
+#Conteo para NAN
+SELECT periodo, cole_calendario, cole_jornada , cole_genero, punt_global , COUNT(*) AS cantidad_relaciones
+FROM datosproyecto
+WHERE (periodo = 20194 OR periodo = 20211)
+AND cole_calendario = 'A'
+AND (fami_estratovivienda = 'Estrato 1' OR fami_estratovivienda = 'Estrato 2'
+OR fami_estratovivienda = 'Estrato 3' OR fami_estratovivienda = 'Estrato 4'
+OR fami_estratovivienda = 'Estrato 5' OR fami_estratovivienda = 'Estrato 6'
+OR fami_estratovivienda = 'No sabe') GROUP BY periodo, cole_calendario, cole_jornada , cole_genero, punt_global
+
+SELECT periodo, cole_calendario, cole_jornada , cole_genero,
+estu_genero, punt_global, fami_tienecomputador , COUNT(*) AS cantidad_relaciones
+FROM datosproyecto WHERE (periodo = 20194 OR periodo = 20211)
+AND (fami_estratovivienda = 'Estrato 1' OR fami_estratovivienda = 'Estrato 2' OR
+fami_estratovivienda = 'Estrato 3' OR fami_estratovivienda = 'Estrato 4' OR
+fami_estratovivienda = 'Estrato 5' OR fami_estratovivienda = 'Estrato 6' OR
+fami_estratovivienda = 'No sabe') GROUP BY periodo, cole_calendario, cole_jornada ,
+cole_genero, estu_genero, punt_global, fami_tienecomputador
+
+#Sacar Datos
+select periodo AS Periodo, cole_calendario AS Calendario, cole_bilingue AS Bilingue, estu_depto_reside
+AS Departamento_Est, cole_jornada AS Jornada, cole_genero AS Genero_Colegio, estu_genero AS Genero,
+fami_estratovivienda AS Estrato, punt_global AS Puntaje, fami_tienecomputador AS Computador
+FROM "datosproyecto" WHERE (periodo = 20194 OR periodo = 20211) AND (fami_estratovivienda = 'Estrato 1'
+OR fami_estratovivienda = 'Estrato 2'OR fami_estratovivienda = 'Estrato 3' OR fami_estratovivienda = 'Estrato 4'
+OR fami_estratovivienda = 'Estrato 5' OR fami_estratovivienda = 'Estrato 6' OR fami_estratovivienda = 'Sin estrato'
+OR fami_estratovivienda = 'No sabe')
