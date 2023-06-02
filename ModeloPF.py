@@ -26,7 +26,7 @@ data = data.to_numpy()
 # Se dividen los datos en conjuntos de entrenamiento y prueba
 dataEntrenamiento = data[0:615000,:]
 dataValidacion = data[615000:,:]
-
+##
 #Se definen las muestras con los datos de entrenamiento
 muestras = pd.DataFrame(dataEntrenamiento, columns = names)
 

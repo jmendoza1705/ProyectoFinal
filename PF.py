@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 ##
-data = pd.read_csv('Proyecto Final/data.csv')
+data = pd.read_csv('Proyecto Final/datosFinales.csv')
 data = data.dropna()
 names = data.columns.values
 data = data.to_numpy()
@@ -15,22 +15,23 @@ for i in range(0, len(data)):
 
 ##
 # Discretización Calendario
-# A: 0, B:1
-for i in range(0, len(data)):
-    data[i, 1] = (data[i, 1] == "B") * 1
+# 'A': 0, 'B' : 1, 'OTRO': 2
 
-##
-# Discretización Caracter
-# 'ACADÉMICO': 0, 'TÉCNICO':1, 'TÉCNICO/ACADÉMICO': 2, 'NO APLICA':3
-caracter = ['ACADÉMICO', 'TÉCNICO', 'TÉCNICO/ACADÉMICO', 'NO APLICA']
+calendarios = ['A', 'B', 'OTRO']
 
-for i in range(0, len(caracter)):
+for i in range(0, len(calendarios)):
     for j in range(0, len(data)):
-        if data[j, 2] == caracter[i]:
-            data[j, 2] = i
+        if data[j, 1] == calendarios[i]:
+            data[j, 1] = i
 
 ##
-# Discretización Departamentos
+# Discretización Bilingue
+# No: 0, Si:1
+for i in range(0, len(data)):
+    data[i, 2] = (data[i, 2] == "S") * 1
+
+##
+# Discretización Departamentos Estudiante
 # {'AMAZONAS': 0, 'ANTIOQUIA': 1, 'ARAUCA': 2, 'ATLANTICO': 3, 'BOGOTÁ': 4, 'BOLIVAR': 5, 'BOYACA': 6, 'CALDAS': 7,
 # 'CAQUETA': 8, 'CASANARE': 9, 'CAUCA': 10, 'CESAR': 11, 'CHOCO': 12, 'CORDOBA': 13, 'CUNDINAMARCA': 14, 'GUAINIA': 15,
 # 'GUAVIARE': 16, 'HUILA': 17, 'LA GUAJIRA': 18, 'MAGDALENA': 19, 'META': 20, 'NARIÑO': 21, 'NORTE SANTANDER': 22,
@@ -95,19 +96,25 @@ for i in range(0, len(estratos)):
 # 376-500 = 3
 
 for i in range(0, len(data)):
-    if data[i, -1] <= 125:
-        data[i, -1] = 0
+    if data[i, 8] <= 125:
+        data[i, 8] = 0
 
-    elif 125 < data[i, -1] <= 250:
-        data[i, -1] = 1
+    elif 125 < data[i, 8] <= 250:
+        data[i, 8] = 1
 
-    elif 250 < data[i, -1] <= 375:
-        data[i, -1] = 2
+    elif 250 < data[i, 8] <= 375:
+        data[i, 8] = 2
 
-    elif 375 < data[i, -1] <= 500:
-        data[i, -1] = 3
+    elif 375 < data[i, 8] <= 500:
+        data[i, 8] = 3
 
+##
+# Discretización Computador
+# No: 0, Si:1
+
+for i in range(0, len(data)):
+    data[i, 9] = (data[i, 9] == "Si") * 1
 ##
 #Data Frame y exportar
 dataDiscret = pd.DataFrame(data, columns = names)
-dataDiscret.to_csv('Datos Discretizados.csv', index = False)
+dataDiscret.to_csv('Datos Discretizados3.csv', index = False)
