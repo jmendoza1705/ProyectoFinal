@@ -96,7 +96,8 @@ mejores_depts = moda_punt_dept.drop(moda_punt_dept[moda_punt_dept['Moda'] == 1].
 
 fig_v3 = px.bar(mejores_depts, x='Cantidad', y='Departamento', orientation='h')
 fig_v3.update_traces(marker_color='#A4D2BC')
-fig_v3.update_layout(width=1000,plot_bgcolor="rgba(255,255,255,255)",title_text='Personas que obtuvieron un puntaje entre el percentil 25 y 50', title_x=0.5, title_font_size=20, font=dict(size=16))
+fig_v3.update_layout(width=1000,plot_bgcolor="rgba(255,255,255,255)",title_text='Personas que obtuvieron un puntaje entre el percentil 50 y 75',
+                     title_x=0.5, title_font_size=20, font=dict(size=16))
 fig_v3.update_xaxes( showline=True, linewidth=1, linecolor='black', mirror=True, title_text='Frecuencia',tickfont=dict(size=15))
 fig_v3.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True, title_text='Departamento',tickfont=dict(size=15))
 
@@ -296,7 +297,7 @@ app.layout = html.Div(style={'overflowY': 'auto'},
                             html.Br(),
                             html.Div(html.H6('A continuación se presentan los departamentos con mejores resultados en la prueba Saber 11.'
                                              ' Se presenta la cantidad de estudiantes que obtuvieron un puntaje entre el percentil'
-                                             ' 25 y 50 para estos departamentos.'),
+                                             ' 50 y 75 para estos departamentos.'),
                                      style={'backgroundColor': "#D8E7E7", "color": "#526771",
                                             'textAlign': 'center', 'fontSize': '18px'}),
                             html.Br(),
